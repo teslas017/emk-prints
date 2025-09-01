@@ -37,6 +37,7 @@
             top: 0;
             z-index: 1000;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
         }
 
         .header-content {
@@ -250,6 +251,14 @@
             justify-content: center;
             font-size: 3rem;
             color: #999;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .product-info {
@@ -266,6 +275,17 @@
             font-weight: bold;
             color: #e74c3c;
             margin-top: 0.5rem;
+        }
+
+        .product-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
         }
 
         /* About Section */
@@ -324,11 +344,23 @@
             color: white;
         }
 
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .contact-form {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 15px;
+        }
+
         .contact-info {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
-            margin-top: 2rem;
         }
 
         .contact-item {
@@ -389,6 +421,27 @@
             overflow-y: auto;
         }
 
+        /* Admin Login Form */
+        .admin-login {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2001;
+        }
+
+        .login-content {
+            background: white;
+            width: 90%;
+            max-width: 400px;
+            margin: 20% auto;
+            border-radius: 15px;
+            padding: 2rem;
+        }
+
         .admin-form {
             margin-bottom: 2rem;
         }
@@ -419,6 +472,63 @@
         .form-group textarea:focus {
             border-color: #3498db;
             outline: none;
+        }
+
+        /* Modal for product details */
+        .product-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2002;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 800px;
+            margin: 5% auto;
+            border-radius: 15px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .order-form {
+            margin-top: 2rem;
+        }
+
+        /* Error message styling */
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 0.8rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            border: 1px solid #f5c6cb;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 0.8rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            border: 1px solid #c3e6cb;
         }
 
         /* Footer */
@@ -471,6 +581,10 @@
                 flex-direction: column;
                 align-items: center;
             }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 480px) {
@@ -496,6 +610,21 @@
         .hidden {
             display: none !important;
         }
+
+        /* Loading spinner */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -512,7 +641,7 @@
                         <li><a href="#products">Products</a></li>
                         <li><a href="#about">About</a></li>
                         <li><a href="#contact">Contact</a></li>
-                        <li><a href="#" onclick="openAdminPanel()">Admin</a></li>
+                        <li><a href="#" onclick="openAdminLogin(); return false;">Admin</a></li>
                     </ul>
                 </nav>
             </div>
@@ -586,100 +715,7 @@
             </div>
             
             <div class="products-grid" id="products-grid">
-                <!-- Jersey Products -->
-                <div class="product-card jerseys">
-                    <div class="product-image">👕</div>
-                    <div class="product-info">
-                        <h3>Custom Sports Jersey</h3>
-                        <p>Professional quality jerseys with team names, numbers, and logos</p>
-                        <div class="product-price">From KSh 1,500</div>
-                    </div>
-                </div>
-                
-                <div class="product-card jerseys">
-                    <div class="product-image">🏀</div>
-                    <div class="product-info">
-                        <h3>Basketball Jersey Set</h3>
-                        <p>Complete basketball uniform with shorts and jersey</p>
-                        <div class="product-price">From KSh 2,200</div>
-                    </div>
-                </div>
-
-                <!-- Apparel Products -->
-                <div class="product-card apparel">
-                    <div class="product-image">👔</div>
-                    <div class="product-info">
-                        <h3>Custom T-Shirt</h3>
-                        <p>High-quality cotton t-shirts with custom designs</p>
-                        <div class="product-price">From KSh 800</div>
-                    </div>
-                </div>
-                
-                <div class="product-card apparel">
-                    <div class="product-image">🧥</div>
-                    <div class="product-info">
-                        <h3>Personalized Hoodie</h3>
-                        <p>Comfortable hoodies with custom prints and embroidery</p>
-                        <div class="product-price">From KSh 2,500</div>
-                    </div>
-                </div>
-
-                <!-- Mugs & Cups -->
-                <div class="product-card mugs">
-                    <div class="product-image">☕</div>
-                    <div class="product-info">
-                        <h3>Branded Coffee Mug</h3>
-                        <p>Ceramic mugs with company logos and custom designs</p>
-                        <div class="product-price">From KSh 450</div>
-                    </div>
-                </div>
-                
-                <div class="product-card mugs">
-                    <div class="product-image">🥤</div>
-                    <div class="product-info">
-                        <h3>Custom Water Bottle</h3>
-                        <p>Stainless steel bottles with personalized branding</p>
-                        <div class="product-price">From KSh 1,200</div>
-                    </div>
-                </div>
-
-                <!-- Banners -->
-                <div class="product-card banners">
-                    <div class="product-image">🎯</div>
-                    <div class="product-info">
-                        <h3>Event Banner</h3>
-                        <p>Large format banners for events and promotions</p>
-                        <div class="product-price">From KSh 2,000</div>
-                    </div>
-                </div>
-                
-                <div class="product-card banners">
-                    <div class="product-image">📢</div>
-                    <div class="product-info">
-                        <h3>Pull-up Banner</h3>
-                        <p>Portable roll-up banners for exhibitions and displays</p>
-                        <div class="product-price">From KSh 3,500</div>
-                    </div>
-                </div>
-
-                <!-- Corporate -->
-                <div class="product-card corporate">
-                    <div class="product-image">🏢</div>
-                    <div class="product-info">
-                        <h3>Corporate Gift Set</h3>
-                        <p>Branded merchandise packages for corporate clients</p>
-                        <div class="product-price">From KSh 5,000</div>
-                    </div>
-                </div>
-                
-                <div class="product-card corporate">
-                    <div class="product-image">📝</div>
-                    <div class="product-info">
-                        <h3>Business Cards & Stationery</h3>
-                        <p>Professional business materials with custom branding</p>
-                        <div class="product-price">From KSh 1,500</div>
-                    </div>
-                </div>
+                <!-- Products will be loaded dynamically -->
             </div>
         </div>
     </section>
@@ -716,26 +752,53 @@
     <section id="contact" class="contact">
         <div class="container">
             <h2 class="section-title">Contact Us</h2>
-            <div class="contact-info">
-                <div class="contact-item">
-                    <div class="contact-icon">📱</div>
-                    <h3>Phone</h3>
-                    <p>+254 701118127</p>
+            
+            <div class="contact-grid">
+                <div class="contact-form">
+                    <h3>Send us a message</h3>
+                    <form id="contact-form">
+                        <div class="form-group">
+                            <label for="contact-name">Your Name:</label>
+                            <input type="text" id="contact-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-email">Email:</label>
+                            <input type="email" id="contact-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-phone">Phone:</label>
+                            <input type="tel" id="contact-phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-message">Message:</label>
+                            <textarea id="contact-message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                    <div id="contact-message-area"></div>
                 </div>
-                <div class="contact-item">
-                    <div class="contact-icon">✉️</div>
-                    <h3>Email</h3>
-                    <p>sales@mastermindconsulting.online</p>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-icon">📍</div>
-                    <h3>Location</h3>
-                    <p>Kutus, Kenya</p>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-icon">🕒</div>
-                    <h3>Business Hours</h3>
-                    <p>Mon - Fri: 8AM - 6PM<br>Sat: 9AM - 4PM</p>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">📱</div>
+                        <h3>Phone</h3>
+                        <p>+254 701118127</p>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">✉️</div>
+                        <h3>Email</h3>
+                        <p>sales@mastermindconsulting.online</p>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <h3>Location</h3>
+                        <p>Kutus, Kenya</p>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">🕒</div>
+                        <h3>Business Hours</h3>
+                        <p>Mon - Fri: 8AM - 6PM<br>Sat: 9AM - 4PM</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -753,15 +816,49 @@
         💬
     </button>
 
+    <!-- Product Detail Modal -->
+    <div id="product-modal" class="product-modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeProductModal()">&times;</button>
+            <div id="modal-content-area">
+                <!-- Content will be loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Login Modal -->
+    <div id="admin-login" class="admin-login">
+        <div class="login-content">
+            <h2>Admin Login</h2>
+            <div id="login-message"></div>
+            <form id="admin-login-form">
+                <div class="form-group">
+                    <label for="admin-password">Password:</label>
+                    <input type="password" id="admin-password" required>
+                </div>
+                <div style="display: flex; gap: 1rem; justify-content: space-between;">
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeAdminLogin()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Admin Panel -->
     <div id="admin-panel" class="admin-panel">
         <div class="admin-content">
-            <h2>Admin Panel - Product Management</h2>
-            <button onclick="closeAdminPanel()" style="float: right; padding: 0.5rem 1rem; background: #e74c3c; color: white; border: none; border-radius: 5px; cursor: pointer;">Close</button>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h2>Admin Panel - Product Management</h2>
+                <div>
+                    <button onclick="logoutAdmin()" style="padding: 0.5rem 1rem; background: #f39c12; color: white; border: none; border-radius: 5px; cursor: pointer; margin-right: 1rem;">Logout</button>
+                    <button onclick="closeAdminPanel()" style="padding: 0.5rem 1rem; background: #e74c3c; color: white; border: none; border-radius: 5px; cursor: pointer;">Close</button>
+                </div>
+            </div>
             
             <div class="admin-form">
                 <h3>Add/Edit Product</h3>
                 <form id="product-form">
+                    <input type="hidden" id="product-id">
                     <div class="form-group">
                         <label>Product Name:</label>
                         <input type="text" id="product-name" required>
@@ -789,7 +886,11 @@
                         <label>Icon (Emoji):</label>
                         <input type="text" id="product-icon" placeholder="e.g., 👕" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Add Product</button>
+                    <div class="form-group">
+                        <label>Image URL:</label>
+                        <input type="text" id="product-image" placeholder="https://example.com/image.jpg">
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="product-form-submit">Add Product</button>
                 </form>
             </div>
             
@@ -803,6 +904,111 @@
     </div>
 
     <script>
+        // Global variables
+        const ADMIN_PASSWORD = "emk2024"; // In a real app, this would be securely stored on the server
+        let adminToken = sessionStorage.getItem('adminToken');
+        let products = JSON.parse(localStorage.getItem('emk-products')) || [];
+        let nextProductId = parseInt(localStorage.getItem('emk-next-id')) || 1;
+
+        // Default products if none exist
+        if (products.length === 0) {
+            products = [
+                {
+                    id: 1,
+                    name: "Custom Sports Jersey",
+                    category: "jerseys",
+                    description: "Professional quality jerseys with team names, numbers, and logos",
+                    price: 1500,
+                    icon: "👕",
+                    image: ""
+                },
+                {
+                    id: 2,
+                    name: "Basketball Jersey Set",
+                    category: "jerseys",
+                    description: "Complete basketball uniform with shorts and jersey",
+                    price: 2200,
+                    icon: "🏀",
+                    image: ""
+                },
+                {
+                    id: 3,
+                    name: "Custom T-Shirt",
+                    category: "apparel",
+                    description: "High-quality cotton t-shirts with custom designs",
+                    price: 800,
+                    icon: "👔",
+                    image: ""
+                },
+                {
+                    id: 4,
+                    name: "Personalized Hoodie",
+                    category: "apparel",
+                    description: "Comfortable hoodies with custom prints and embroidery",
+                    price: 2500,
+                    icon: "🧥",
+                    image: ""
+                },
+                {
+                    id: 5,
+                    name: "Branded Coffee Mug",
+                    category: "mugs",
+                    description: "Ceramic mugs with company logos and custom designs",
+                    price: 450,
+                    icon: "☕",
+                    image: ""
+                },
+                {
+                    id: 6,
+                    name: "Custom Water Bottle",
+                    category: "mugs",
+                    description: "Stainless steel bottles with personalized branding",
+                    price: 1200,
+                    icon: "🥤",
+                    image: ""
+                },
+                {
+                    id: 7,
+                    name: "Event Banner",
+                    category: "banners",
+                    description: "Large format banners for events and promotions",
+                    price: 2000,
+                    icon: "🎯",
+                    image: ""
+                },
+                {
+                    id: 8,
+                    name: "Pull-up Banner",
+                    category: "banners",
+                    description: "Portable roll-up banners for exhibitions and displays",
+                    price: 3500,
+                    icon: "📢",
+                    image: ""
+                },
+                {
+                    id: 9,
+                    name: "Corporate Gift Set",
+                    category: "corporate",
+                    description: "Branded merchandise packages for corporate clients",
+                    price: 5000,
+                    icon: "🏢",
+                    image: ""
+                },
+                {
+                    id: 10,
+                    name: "Business Cards & Stationery",
+                    category: "corporate",
+                    description: "Professional business materials with custom branding",
+                    price: 1500,
+                    icon: "📝",
+                    image: ""
+                }
+            ];
+            nextProductId = 11;
+            localStorage.setItem('emk-products', JSON.stringify(products));
+            localStorage.setItem('emk-next-id', nextProductId.toString());
+        }
+
         // Mobile menu toggle
         function toggleMobileMenu() {
             const navMenu = document.getElementById('nav-menu');
@@ -827,7 +1033,7 @@
 
         // Product category filtering
         function showCategory(category) {
-            const products = document.querySelectorAll('.product-card');
+            const productCards = document.querySelectorAll('.product-card');
             const buttons = document.querySelectorAll('.category-btn');
             
             // Update active button
@@ -835,14 +1041,14 @@
             event.target.classList.add('active');
             
             // Show/hide products
-            products.forEach(product => {
+            productCards.forEach(card => {
                 if (category === 'all') {
-                    product.style.display = 'block';
+                    card.style.display = 'block';
                 } else {
-                    if (product.classList.contains(category)) {
-                        product.style.display = 'block';
+                    if (card.classList.contains(category)) {
+                        card.style.display = 'block';
                     } else {
-                        product.style.display = 'none';
+                        card.style.display = 'none';
                     }
                 }
             });
@@ -851,31 +1057,251 @@
         // Customer support contact
         function contactCustomerSupport() {
             const message = "Hello EMK PRINTS! I'm interested in your custom printing services. Could you please provide more information?";
-            const whatsappUrl = `https://wa.me/254XXXXXXXXX?text=${encodeURIComponent(message)}`;
+            const whatsappUrl = `https://wa.me/254701118127?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
         }
 
-        // Admin Panel Functions
-        let products = JSON.parse(localStorage.getItem('emk-products')) || [];
-        let nextProductId = parseInt(localStorage.getItem('emk-next-id')) || 1;
+        // Display products in the products grid
+        function displayProducts() {
+            const productsGrid = document.getElementById('products-grid');
+            productsGrid.innerHTML = '';
+            
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = `product-card ${product.category}`;
+                productCard.innerHTML = `
+                    <div class="product-image">
+                        ${product.image ? `<img src="${product.image}" alt="${product.name}">` : product.icon}
+                    </div>
+                    <div class="product-info">
+                        <h3>${product.name}</h3>
+                        <p>${product.description}</p>
+                        <div class="product-price">From KSh ${product.price}</div>
+                        <div class="product-actions">
+                            <button class="btn btn-primary btn-small" onclick="viewProduct(${product.id})">View Details</button>
+                            <button class="btn btn-secondary btn-small" onclick="orderProduct(${product.id})">Order Now</button>
+                        </div>
+                    </div>
+                `;
+                productsGrid.appendChild(productCard);
+            });
+        }
 
-        function openAdminPanel() {
-            const password = prompt("Enter admin password:");
-            if (password === "emkprints2024") {
-                document.getElementById('admin-panel').style.display = 'block';
-                loadAdminProducts();
-            } else if (password !== null) {
-                alert("Incorrect password!");
+        // View product details
+        function viewProduct(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+            
+            const modalContent = document.getElementById('modal-content-area');
+            modalContent.innerHTML = `
+                <h2>${product.name}</h2>
+                <div class="product-image" style="height: 300px; margin: 1rem 0;">
+                    ${product.image ? `<img src="${product.image}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: contain;">` : product.icon}
+                </div>
+                <p><strong>Description:</strong> ${product.description}</p>
+                <p><strong>Category:</strong> ${product.category.charAt(0).toUpperCase() + product.category.slice(1)}</p>
+                <p><strong>Price:</strong> KSh ${product.price}</p>
+                <div class="product-actions" style="margin-top: 2rem;">
+                    <button class="btn btn-primary" onclick="orderProduct(${product.id})">Order Now</button>
+                </div>
+            `;
+            
+            document.getElementById('product-modal').style.display = 'block';
+        }
+
+        // Close product modal
+        function closeProductModal() {
+            document.getElementById('product-modal').style.display = 'none';
+        }
+
+        // Order product
+        function orderProduct(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+            
+            const modalContent = document.getElementById('modal-content-area');
+            modalContent.innerHTML = `
+                <h2>Order: ${product.name}</h2>
+                <form id="order-form" class="order-form">
+                    <input type="hidden" id="order-product-id" value="${product.id}">
+                    <div class="form-group">
+                        <label for="order-name">Your Name:</label>
+                        <input type="text" id="order-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="order-phone">Phone Number:</label>
+                        <input type="tel" id="order-phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="order-email">Email:</label>
+                        <input type="email" id="order-email">
+                    </div>
+                    <div class="form-group">
+                        <label for="order-quantity">Quantity:</label>
+                        <input type="number" id="order-quantity" min="1" value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="order-details">Special Requirements:</label>
+                        <textarea id="order-details" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Place Order</button>
+                </form>
+                <div id="order-message"></div>
+            `;
+            
+            document.getElementById('order-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                placeOrder(product);
+            });
+            
+            document.getElementById('product-modal').style.display = 'block';
+        }
+
+        // Process order
+        function placeOrder(product) {
+            const name = document.getElementById('order-name').value;
+            const phone = document.getElementById('order-phone').value;
+            const email = document.getElementById('order-email').value;
+            const quantity = document.getElementById('order-quantity').value;
+            const details = document.getElementById('order-details').value;
+            
+            // In a real application, this would be sent to a server
+            const message = `New Order:%0A%0AProduct: ${product.name}%0APrice: KSh ${product.price}%0AQuantity: ${quantity}%0ATotal: KSh ${product.price * quantity}%0A%0ACustomer:%0AName: ${name}%0APhone: ${phone}${email ? '%0AEmail: ' + email : ''}${details ? '%0ADetails: ' + details : ''}`;
+            
+            const whatsappUrl = `https://wa.me/254701118127?text=${message}`;
+            window.open(whatsappUrl, '_blank');
+            
+            document.getElementById('order-message').innerHTML = `
+                <div class="success-message">
+                    Your order has been received! We've opened WhatsApp for you to complete the order process.
+                </div>
+            `;
+            
+            // Clear the form
+            document.getElementById('order-form').reset();
+        }
+
+        // Contact form handling
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('contact-name').value;
+            const email = document.getElementById('contact-email').value;
+            const phone = document.getElementById('contact-phone').value;
+            const message = document.getElementById('contact-message').value;
+            
+            // In a real application, this would be sent to a server
+            const whatsappMessage = `New Contact Message:%0A%0AName: ${name}%0AEmail: ${email}${phone ? '%0APhone: ' + phone : ''}%0A%0AMessage:%0A${message}`;
+            
+            const whatsappUrl = `https://wa.me/254701118127?text=${encodeURIComponent(whatsappMessage)}`;
+            window.open(whatsappUrl, '_blank');
+            
+            document.getElementById('contact-message-area').innerHTML = `
+                <div class="success-message">
+                    Thank you for your message! We've opened WhatsApp for you to send your inquiry.
+                </div>
+            `;
+            
+            // Clear the form
+            this.reset();
+            
+            setTimeout(() => {
+                document.getElementById('contact-message-area').innerHTML = '';
+            }, 5000);
+        });
+
+        // Admin Login Functions
+        function openAdminLogin() {
+            // Check if already logged in
+            if (adminToken) {
+                if (verifyAdminSession()) {
+                    openAdminPanel();
+                    return;
+                }
             }
+            document.getElementById('admin-login').style.display = 'block';
+        }
+
+        function closeAdminLogin() {
+            document.getElementById('admin-login').style.display = 'none';
+            clearLoginMessage();
+        }
+
+        function showLoginMessage(message, isError = false) {
+            const messageDiv = document.getElementById('login-message');
+            messageDiv.innerHTML = `<div class="${isError ? 'error-message' : 'success-message'}">${message}</div>`;
+        }
+
+        function clearLoginMessage() {
+            document.getElementById('login-message').innerHTML = '';
+        }
+
+        // Admin login form submission
+        document.getElementById('admin-login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const password = document.getElementById('admin-password').value;
+            
+            // Simulate server authentication
+            if (password === ADMIN_PASSWORD) {
+                adminToken = generateToken();
+                sessionStorage.setItem('adminToken', adminToken);
+                showLoginMessage('Login successful! Opening admin panel...', false);
+                
+                setTimeout(() => {
+                    closeAdminLogin();
+                    openAdminPanel();
+                }, 1000);
+            } else {
+                showLoginMessage('Invalid password. Please try again.', true);
+            }
+            
+            // Clear password field
+            document.getElementById('admin-password').value = '';
+        });
+
+        // Generate a simple token (in a real app, this would come from the server)
+        function generateToken() {
+            return 'emk_' + Math.random().toString(36).substr(2) + Date.now().toString(36);
+        }
+
+        // Verify admin session
+        function verifyAdminSession() {
+            if (!adminToken) return false;
+            // In a real app, this would verify with the server
+            return adminToken.startsWith('emk_');
+        }
+
+        // Admin logout
+        function logoutAdmin() {
+            adminToken = null;
+            sessionStorage.removeItem('adminToken');
+            closeAdminPanel();
+            alert('Logged out successfully!');
+        }
+
+        // Admin Panel Functions
+        function openAdminPanel() {
+            document.getElementById('admin-panel').style.display = 'block';
+            loadAdminProducts();
         }
 
         function closeAdminPanel() {
             document.getElementById('admin-panel').style.display = 'none';
+            // Reset form
+            document.getElementById('product-form').reset();
+            document.getElementById('product-id').value = '';
+            document.getElementById('product-form-submit').textContent = 'Add Product';
         }
 
         function loadAdminProducts() {
             const adminList = document.getElementById('admin-products-list');
             adminList.innerHTML = '';
+            
+            if (products.length === 0) {
+                adminList.innerHTML = '<p>No products found. Add your first product!</p>';
+                return;
+            }
             
             products.forEach(product => {
                 const productDiv = document.createElement('div');
@@ -886,10 +1312,31 @@
                     <p><strong>Description:</strong> ${product.description}</p>
                     <p><strong>Price:</strong> KSh ${product.price}</p>
                     <p><strong>Icon:</strong> ${product.icon}</p>
-                    <button onclick="deleteProduct(${product.id})" style="background: #e74c3c; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; margin-top: 0.5rem;">Delete</button>
+                    <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                        <button onclick="editProduct(${product.id})" style="background: #3498db; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">Edit</button>
+                        <button onclick="deleteProduct(${product.id})" style="background: #e74c3c; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">Delete</button>
+                    </div>
                 `;
                 adminList.appendChild(productDiv);
             });
+        }
+
+        function editProduct(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+            
+            document.getElementById('product-id').value = product.id;
+            document.getElementById('product-name').value = product.name;
+            document.getElementById('product-category').value = product.category;
+            document.getElementById('product-description').value = product.description;
+            document.getElementById('product-price').value = product.price;
+            document.getElementById('product-icon').value = product.icon;
+            document.getElementById('product-image').value = product.image || '';
+            
+            document.getElementById('product-form-submit').textContent = 'Update Product';
+            
+            // Scroll to form
+            document.getElementById('product-form').scrollIntoView({ behavior: 'smooth' });
         }
 
         function deleteProduct(id) {
@@ -897,74 +1344,78 @@
                 products = products.filter(product => product.id !== id);
                 localStorage.setItem('emk-products', JSON.stringify(products));
                 loadAdminProducts();
-                updateProductsDisplay();
+                displayProducts();
             }
-        }
-
-        function updateProductsDisplay() {
-            const productsGrid = document.getElementById('products-grid');
-            
-            // Clear existing custom products (keep original demo products)
-            const customProducts = productsGrid.querySelectorAll('.product-card.custom-product');
-            customProducts.forEach(product => product.remove());
-            
-            // Add new custom products
-            products.forEach(product => {
-                const productCard = document.createElement('div');
-                productCard.className = `product-card custom-product ${product.category}`;
-                productCard.innerHTML = `
-                    <div class="product-image">${product.icon}</div>
-                    <div class="product-info">
-                        <h3>${product.name}</h3>
-                        <p>${product.description}</p>
-                        <div class="product-price">From KSh ${product.price}</div>
-                    </div>
-                `;
-                productsGrid.appendChild(productCard);
-            });
         }
 
         // Handle product form submission
         document.getElementById('product-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
+            const productId = document.getElementById('product-id').value;
             const product = {
-                id: nextProductId++,
                 name: document.getElementById('product-name').value,
                 category: document.getElementById('product-category').value,
                 description: document.getElementById('product-description').value,
                 price: document.getElementById('product-price').value,
-                icon: document.getElementById('product-icon').value
+                icon: document.getElementById('product-icon').value,
+                image: document.getElementById('product-image').value
             };
             
-            products.push(product);
-            localStorage.setItem('emk-products', JSON.stringify(products));
-            localStorage.setItem('emk-next-id', nextProductId.toString());
+            if (productId) {
+                // Update existing product
+                const index = products.findIndex(p => p.id === parseInt(productId));
+                if (index !== -1) {
+                    products[index] = { ...products[index], ...product };
+                }
+            } else {
+                // Add new product
+                product.id = nextProductId++;
+                products.push(product);
+                localStorage.setItem('emk-next-id', nextProductId.toString());
+            }
             
-            // Clear form
+            localStorage.setItem('emk-products', JSON.stringify(products));
+            
+            // Reset form
             this.reset();
+            document.getElementById('product-id').value = '';
+            document.getElementById('product-form-submit').textContent = 'Add Product';
             
             // Update displays
             loadAdminProducts();
-            updateProductsDisplay();
+            displayProducts();
             
-            alert('Product added successfully!');
+            alert(`Product ${productId ? 'updated' : 'added'} successfully!`);
         });
 
         // Initialize the page
         document.addEventListener('DOMContentLoaded', function() {
-            updateProductsDisplay();
+            displayProducts();
             
             // Add scroll effect to header
             let lastScrollY = window.scrollY;
             window.addEventListener('scroll', () => {
                 const header = document.querySelector('header');
-                if (window.scrollY > lastScrollY) {
+                if (window.scrollY > lastScrollY && window.scrollY > 100) {
                     header.style.transform = 'translateY(-100%)';
                 } else {
                     header.style.transform = 'translateY(0)';
                 }
                 lastScrollY = window.scrollY;
+            });
+            
+            // Close modals when clicking outside
+            window.addEventListener('click', function(e) {
+                if (e.target.classList.contains('admin-login')) {
+                    closeAdminLogin();
+                }
+                if (e.target.classList.contains('admin-panel')) {
+                    closeAdminPanel();
+                }
+                if (e.target.classList.contains('product-modal')) {
+                    closeProductModal();
+                }
             });
         });
 
