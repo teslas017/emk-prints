@@ -4,6 +4,7 @@ import "./brand.css";
 import "./track.css";
 import "./admin.css";
 import "./shop.css";
+import "./ledger.css";
 
 export const metadata: Metadata = {
   title: "EMK PRINTS | Football Jerseys",
