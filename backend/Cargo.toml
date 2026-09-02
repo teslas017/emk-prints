@@ -1,0 +1,26 @@
+[package]
+name = "emk-prints-api"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+actix-cors = "0.7"
+actix-governor = "0.8"
+actix-multipart = "0.7"
+actix-web = { version = "4", features = ["cookies"] }
+argon2 = "0.5"
+chrono = { version = "0.4", features = ["serde"] }
+dotenvy = "0.15"
+jsonwebtoken = "9"
+mime = "0.3"
+secrecy = "0.10"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sqlx = { version = "0.8", features = ["runtime-tokio-rustls", "postgres", "uuid", "chrono", "migrate"] }
+thiserror = "2"
+tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+uuid = { version = "1", features = ["serde", "v4"] }
+validator = { version = "0.20", features = ["derive"] }
+
