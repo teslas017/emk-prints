@@ -15,6 +15,13 @@
       "when": 1788358858109,
       "tag": "0001_colorful_firebrand",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1788361088983,
+      "tag": "0002_ambitious_thunderball",
+      "breakpoints": true
     }
   ]
 }
