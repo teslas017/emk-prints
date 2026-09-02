@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "./brand.css";
+import "./track.css";
 
 export const metadata: Metadata = {
   title: "EMK PRINTS | Football Jerseys",
